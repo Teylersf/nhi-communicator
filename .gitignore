@@ -1,0 +1,53 @@
+# Local Python installations and generated outputs
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+build/
+dist/
+release/
+releases/
+*.egg-info/
+
+# Native binaries are distributed as release assets, with licenses and source.
+/tools/hackrf/bin/
+*.exe
+*.dll
+*.lib
+*.obj
+*.pdb
+*.ilk
+*.exp
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.conda
+*.tar.xz
+*.tar.bz2
+.cache/
+/tools/hackrf/sdk/
+
+# Radio captures, diagnostics, state, and locally persisted settings
+runtime/
+diagnostics/
+captures/
+*.iq
+*.wav
+*.log
+!/dashboard/testdata/tx-open-denied.log
+*.jsonl
+*.pid
+
+# Machine-specific settings and credentials
+.env
+.env.*
+!.env.example
+*.local
+*.local.json
+config.local.json
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
