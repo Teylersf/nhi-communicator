@@ -1,17 +1,11 @@
-# NHI Communicator v0.1.0
+# NHI Communicator v0.1.1
 
-A free local HackRF One application for prime-number packet experiments and live spectrum viewing. The Windows x64 download includes the application runtime and radio host tools; Python is not required.
+Fixes HackRF One detection in the native control helper. Version 0.1.0 incorrectly treated board ID 1 (Jawbreaker) as HackRF One, which rejected the actual supported device. The helper now accepts the official original HackRF One board ID 2 and R9-family board ID 4. Jawbreaker, RAD1O, and unknown board IDs are rejected with checked device cleanup.
 
-- 8,192-bin receive waterfall with display zoom, color levels, pause, and expansion.
-- Unencrypted ASCII prime packets, sequence numbers, CRC32 checks, and a simple 8 kbit/s binary FSK modem.
-- A contained transmit/listen loop for shielded, attenuated laboratory setups, with amplifier and TX gain controls.
-- Offline preview that never opens a radio, plus checked Stop and Quit app behavior.
-- Skinwalker Ranch show context and a full explanation of the protocol and measurements.
+Download and extract **nhi-communicator-v0.1.1-windows-x64.zip**, then run **Start NHI Communicator.cmd**. Python is included; a working WinUSB driver is still required separately. **Start Preview.cmd** opens the interface without accessing a radio. The app is unsigned.
 
-Extract the entire Windows ZIP and run **Start NHI Communicator.cmd**. **Start Preview.cmd** opens the interface without a radio. HackRF use requires a working WinUSB driver installed separately. The app does not change firmware or automatically start RF operations.
+Validation: 210 offline Python/native-fixture tests, a rebuilt Windows bundle, and frozen executable tests accepting mock board IDs 2 and 4 and rejecting unsupported boards. These checks exercise the actual native helper without USB or RF operations; they do not validate every hardware/driver combination or calibrated RF output.
 
-The app is independently inspired by HISTORY's *The Secret of Skinwalker Ranch*. It is unaffiliated, uses its own laboratory protocol, and does not identify a signal's origin or establish NHI contact. The 1.600 GHz lab transmit profile requires a shielded conducted setup with attenuation.
+The app remains a free local spectrum/waterfall viewer and contained prime-packet experiment inspired by HISTORY's *The Secret of Skinwalker Ranch*. The laboratory protocol does not identify a signal's origin or establish NHI contact. Transmission requires the shielded, attenuated lab profile.
 
-Validation: 209 offline Python/native-fixture tests, 32 offline UI/waterfall checks, and a standalone Windows preview smoke test covering packet generation and service shutdown. These checks do not validate calibrated RF output or every hardware/driver combination. The Windows app is unsigned.
-
-Original application code is MIT licensed. Bundled dependencies retain their own licenses. Download **third-party-source-v0.1.0.zip** for corresponding native source, recipes, patches, and notices, and **SHA256SUMS.txt** to verify both archives.
+Original application code is MIT licensed. Bundled dependencies retain their own licenses. **third-party-source-v0.1.1.zip** provides corresponding native source, recipes, patches, and notices; **SHA256SUMS.txt** verifies both archives. The previous v0.1.0 release remains available.

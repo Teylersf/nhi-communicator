@@ -23,7 +23,7 @@ This example is an actual receiver capture. The center line and noise are measur
 
 ## Download and open
 
-1. Download **`nhi-communicator-v0.1.0-windows-x64.zip`** from **[the latest release](https://github.com/Teylersf/nhi-communicator/releases/latest)**.
+1. Download **`nhi-communicator-v0.1.1-windows-x64.zip`** from **[the latest release](https://github.com/Teylersf/nhi-communicator/releases/latest)**.
 2. Extract the complete ZIP into a folder. Keep the bundled files together.
 3. Run **`NHI Communicator.exe`** or **`Start NHI Communicator.cmd`**. Python is not required for the Windows release.
 4. Open the displayed local address in Chrome or another current browser. The default is **http://127.0.0.1:8787**.
@@ -93,6 +93,6 @@ Local settings and receipts are stored in `%LOCALAPPDATA%\NHICommunicator` on Wi
 
 ## Source, license, and contributing
 
-The original application code is **[MIT licensed](LICENSE)**. Bundled HackRF and other third-party components retain their own licenses; see **[Third-party notices](THIRD_PARTY_NOTICES.md)**. The Windows release includes their license files, and **`third-party-source-v0.1.0.zip`** provides corresponding native source and build information alongside the application download.
+The original application code is **[MIT licensed](LICENSE)**. Bundled HackRF and other third-party components retain their own licenses; see **[Third-party notices](THIRD_PARTY_NOTICES.md)**. The Windows release includes their license files, and **`third-party-source-v0.1.1.zip`** provides corresponding native source and build information alongside the application download.
 
 Bug reports should include your OS, app version, HackRF firmware/host versions, the action that failed, and the first meaningful error line. Remove device serials and personal paths before posting logs. Reproduce protocol changes with offline tests before conducting an RF test.

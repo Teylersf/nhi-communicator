@@ -6,7 +6,7 @@ import re
 import sys
 
 APP_NAME = 'NHI Communicator'
-VERSION = '0.1.0'
+VERSION = '0.1.1'
 ASSET_ROOT = (Path(sys._MEIPASS) / 'dashboard' if getattr(sys, 'frozen', False)
               else Path(__file__).resolve().parent)
 

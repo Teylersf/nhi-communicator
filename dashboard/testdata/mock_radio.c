@@ -37,7 +37,7 @@ EXPORT int __cdecl hackrf_close(void *device) { (void)device; return 0; }
 EXPORT int __cdecl hackrf_board_id_read(void *device, uint8_t *id) {
     char *board = getenv("NHI_TEST_BOARD_ID");
     (void)device;
-    *id = (uint8_t)(board ? atoi(board) : 1);
+    *id = (uint8_t)(board ? atoi(board) : 2);
     return 0;
 }
 EXPORT int __cdecl hackrf_version_string_read(void *device, char *output, uint8_t length) {

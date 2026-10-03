@@ -11,6 +11,11 @@
 #define PATH_CAPACITY 4096
 #define ERROR_CAPACITY 4096
 
+/* Board IDs from the official v2024.02.1 hackrf_board_id enum. The original
+   HackRF One and R9 are distinct board types; ID 1 identifies Jawbreaker. */
+#define BOARD_ID_HACKRF1_OG 2
+#define BOARD_ID_HACKRF1_R9 4
+
 typedef struct hackrf_device hackrf_device;
 /* Public hackrf_device_list_t layout from host API v2024.02.1 hackrf.h. */
 typedef struct {
@@ -240,8 +245,9 @@ int wmain(int argc, wchar_t **argv)
         }
         if (opened && !idle) {
             phase("begin", "board_id");
-            if (checked_call(&api, errors, "board_id", api.board_id(device, &board_id)) && board_id != 1)
-                append_error(errors, "This application requires HackRF One (board ID 1); device reports board ID %u", (unsigned int)board_id);
+            if (checked_call(&api, errors, "board_id", api.board_id(device, &board_id)) &&
+                board_id != BOARD_ID_HACKRF1_OG && board_id != BOARD_ID_HACKRF1_R9)
+                append_error(errors, "This application requires HackRF One (board ID 2 or 4); device reports board ID %u", (unsigned int)board_id);
         }
         if (opened && !idle && !errors[0]) {
             phase("begin", "firmware");

@@ -17,7 +17,7 @@ python -m venv .venv
 .\Build-Windows.ps1
 ```
 
-The output is `release/nhi-communicator-v0.1.0-windows-x64.zip`, a corresponding `third-party-source-v0.1.0.zip`, and `SHA256SUMS.txt`. The scripts verify pinned SHA-256 hashes before using downloaded native dependencies. The build recompiles the custom native helper and the guarded libhackrf DLL, builds an offline mock DLL for native tests, runs the test suite, then packages the app with PyInstaller. It does not open a HackRF or run an RF test.
+The output is `release/nhi-communicator-v0.1.1-windows-x64.zip`, a corresponding `third-party-source-v0.1.1.zip`, and `SHA256SUMS.txt`. The scripts verify pinned SHA-256 hashes before using downloaded native dependencies. The build recompiles the custom native helper and the guarded libhackrf DLL, builds an offline mock DLL for native tests, runs the test suite, then packages the app with PyInstaller. It does not open a HackRF or run an RF test.
 
 The app's executable uses the console bootloader so checked child-process JSON receipts work. The `.cmd` launchers start it in the background and open the local browser UI. **Quit app** confirms radio shutdown and closes the service. Running the executable directly also works, with a console available for diagnostics.
 
@@ -29,7 +29,7 @@ The source archive accompanying each release includes the complete HackRF 2024.0
 
 The local libhackrf source is in `vendor/hackrf-guard/src`. It comes from upstream HackRF commit `18b485e3b6d2031c15a79ba89cdb42b5fa245f24`. `serial-descriptor-guards.patch` records the change: preserve signed USB serial-descriptor errors and reject negative, oversized, and too-short descriptors before indexing or comparing buffers. The patch does not change firmware, RF settings, or modulation. `scripts/Build-HackRFLibrary.ps1` builds it with the downloaded libusb and winpthreads SDK. Compiler timestamps and compiler versions can change binary hashes; this is a documented source build, not a bit-for-bit reproducibility claim.
 
-The application's original native helper is `dashboard/radio_control_native.c`. It dynamically loads the selected BSD-licensed libhackrf, enumerates devices, requires an unambiguous HackRF One, and checks open/close/exit receipts. Build it independently with:
+The application's original native helper is `dashboard/radio_control_native.c`. It dynamically loads the selected BSD-licensed libhackrf, enumerates devices, requires an unambiguous HackRF One, and checks open/close/exit receipts. It accepts official board IDs 2 (original HackRF One) and 4 (R9 family); Jawbreaker, RAD1O, and unknown board IDs are rejected. Build it independently with:
 
 ```powershell
 .\dashboard\Build-RadioControl.ps1

@@ -18,7 +18,7 @@ FAKE_DLL = ROOT / 'testdata' / 'mock-hackrf.dll'
 @unittest.skipUnless(os.name == 'nt' and HELPER.is_file() and FAKE_DLL.is_file(),
                      'Windows native helper and offline fixture must be built first.')
 class NativeHelperIntegrationTests(unittest.TestCase):
-    def invoke(self, arguments=(), *, count=1, serial=None, board=1):
+    def invoke(self, arguments=(), *, count=1, serial=None, board=2):
         environment = os.environ.copy()
         environment.update(NHI_TEST_DEVICE_COUNT=str(count), NHI_TEST_BOARD_ID=str(board))
         environment.pop('NHI_TEST_SERIAL', None)
@@ -75,12 +75,27 @@ class NativeHelperIntegrationTests(unittest.TestCase):
             self.assertIn(marker, result.stderr)
 
     def test_other_hackrf_models_are_rejected_and_closed(self):
-        result = self.invoke(board=2)
-        self.assertEqual(result.returncode, 1)
-        self.assertIn('requires HackRF One', json.loads(result.stdout)['error'])
-        self.assertNotIn(b'begin:firmware', result.stderr)
-        self.assertIn(b'done:close', result.stderr)
-        self.assertIn(b'done:exit', result.stderr)
+        # The official board enum assigns 1 to Jawbreaker and 3 to RAD1O.
+        # Unknown, undetected, and unsupported future IDs must also fail closed.
+        for board in (0, 1, 3, 5, 254, 255):
+            with self.subTest(board=board):
+                result = self.invoke(board=board)
+                self.assertEqual(result.returncode, 1)
+                self.assertEqual(json.loads(result.stdout)['error'],
+                                 'This application requires HackRF One (board ID 2 or 4); '
+                                 f'device reports board ID {board}')
+                self.assertNotIn(b'begin:firmware', result.stderr)
+                self.assertIn(b'done:close', result.stderr)
+                self.assertIn(b'done:exit', result.stderr)
+
+    def test_hackrf_one_r9_is_accepted_with_checked_firmware_and_shutdown(self):
+        result = self.invoke(board=4)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        answer = json.loads(result.stdout)
+        self.assertEqual(answer['name'], 'HackRF One')
+        self.assertEqual(answer['firmware'], 'offline-fixture')
+        for marker in (b'done:board_id', b'done:firmware', b'done:close', b'done:exit'):
+            self.assertIn(marker, result.stderr)
 
     def test_invalid_requested_serial_does_not_load_dll(self):
         result = self.invoke(('--serial', 'z' * 32))

@@ -48,7 +48,7 @@ def download(url, path, expected):
     path.parent.mkdir(parents=True, exist_ok=True)
     if not path.exists() or hashlib.sha256(path.read_bytes()).hexdigest() != expected:
         print(f'Downloading {path.name}', flush=True)
-        request = urllib.request.Request(url, headers={'User-Agent': 'NHI-Communicator-build/0.1.0'})
+        request = urllib.request.Request(url, headers={'User-Agent': 'NHI-Communicator-build/0.1.1'})
         with urllib.request.urlopen(request, timeout=120) as response:
             payload = response.read()
         if hashlib.sha256(payload).hexdigest() != expected:
